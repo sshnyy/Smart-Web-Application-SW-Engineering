@@ -1,0 +1,39 @@
+#!/bin/bash
+
+# start services
+service mariadb start
+service ssh start
+service jenkins start
+
+# check user
+if ! id -u guest1 > /dev/null 2>&1
+then
+    echo 'export PATH=$PATH:/usr/local/go/bin' | tee -a /root/.bashrc
+
+    # add user
+    # id : guest<1 ~ 20>
+    # password : 1
+    for i in {1..20}
+    do
+        # adds user
+        useradd -m guest$i -s /bin/bash
+
+        # sets user password
+        echo -e "$i\n$i" | passwd guest$i
+    done
+
+    for i in {1..20}
+    do
+        # path for golang
+        echo 'export PATH=$PATH:/usr/local/go/bin' | tee -a /home/guest$i/.bashrc
+
+        # copy source code
+        cp -r orm /home/guest$i
+        chown -R guest$i:guest$i /home/guest$i/orm
+    done
+
+    # restore database
+    mysql -u root < orm/users.sql
+    # set root password
+    mysql -u root mysql -e "ALTER user 'root'@'localhost' identified by 'root'"
+fi
