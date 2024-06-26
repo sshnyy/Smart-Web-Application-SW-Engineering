@@ -1,0 +1,20 @@
+{
+    "title": "JSON schema for the TypeScript compiler's configuration file",
+    "$schema": "http://json-schema.org/draft-04/schema#",
+    "compilerOptions": {
+        "target": "ES2018",
+        "module": "ESNext",
+        "moduleResolution": "node",
+        "alwaysStrict": true,
+        "noImplicitAny": true,
+        "noImplicitReturns": true,
+        "removeComments": true,
+        "allowJs": true,
+        "jsx": "react",
+        "allowSyntheticDefaultImports": true,
+        "strictNullChecks": true,
+        "lib": ["ESNext", "DOM"]
+    },
+    "exclude": ["node_modules", "**/*.spec.ts"],
+    "include": ["src/**/*"]
+}
